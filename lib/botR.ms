@@ -1,14 +1,13 @@
-import "logR"
-
 bot.face = function(direction)
     while (bot.facing != direction)
         bot.left
     end while
 end function
 
-bot.goto = function(x=0,y=0, log = logR)
-    attempt = 0
-     log.debug("Currently at " + bot.position.x + "," + bot.position.y)
+bot.goto = function(x=0,y=0)
+    
+    attempt = 0    
+    log.debug("Currently at " + bot.position.x + "," + bot.position.y)
     while bot.position.x != x or bot.position.y != y
         log.debug("Going to " + x + "," + y)
         attempt = attempt + 1
@@ -55,3 +54,6 @@ bot.goto = function(x=0,y=0, log = logR)
         end if
     end while
 end function
+
+return null
+

@@ -2,10 +2,11 @@
 import "botR"
 import "logR"
 
-log = logR
 log.set("debug")
 settings = new map
-run = function(target)
+Harvest = new {}
+
+Harvest.run = function(target)
     map["target"] = target
 
     // assume chest is always on left of bot initial spot
@@ -15,7 +16,7 @@ run = function(target)
         log.debug ("harvesting at " + targetlocation.x + "," + targetlocation.y)
         
         // always harvest from right             
-        bot.goto(targetlocation.x + 1,targetlocation.y,log)
+        bot.goto(targetlocation.x + 1,targetlocation.y)
         log.debug("At: " + bot.position.x + "," + bot.position.y)
         
         bot.face(3)
@@ -23,7 +24,7 @@ run = function(target)
     end for
     
     log.debug ("returning to starting location: " + startingLocation.x + "," + startingLocation.y)
-    bot.goto(startingLocation.x,startingLocation.y,log)
+    bot.goto(startingLocation.x,startingLocation.y)
     bot.face(3)    
     for item in bot.inventory        
         if item and item.name == settings.target then
@@ -50,3 +51,4 @@ gettargetlocations = function()
     return list
 end function
 
+return Harvest
