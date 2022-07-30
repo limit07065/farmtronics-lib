@@ -1,5 +1,26 @@
-//import all module in directory, does not recursively import for sub-directory
+// DOC - always the first script to be imported in order to extend globals for some useful methods and init import path
 
+// attr---
+root = "/usr/lib/"
+
+// methods---
+// DOC - init settings for global such as import path
+init = function()
+    for item in file.children(root)
+        info = file.info(root + item)
+        if info.isDirectory then                 
+            if not env.importPaths.indexOf(info.path) then
+                env.importPaths.push(info.path)
+            end if
+        end if
+    end for
+end function
+
+// invocations---
+init
+
+// extensions---
+// DOC - allow import of all modules in same directory
 globals.importall = function(directory)
     directoryPath = directory
     
@@ -20,7 +41,7 @@ globals.importall = function(directory)
     end for
 end function
 
-// prevent recursive import and duplicate import
+// DOC - prevent recursive import and duplicate import
 globals.importsafe = function(moduleName)
     if globals.hasIndex(moduleName) then return     
     
