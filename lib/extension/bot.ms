@@ -40,7 +40,7 @@ bot.goto = function(x=0,y=0)
                 if bot.facing == 1 then
                     log.debug(["Can't move right to <",bot.position.x+1,",",bot.position.y,">"])
                     tile = here.tile(bot.position.x+1,bot.position.y)
-                    if tile then log.debug("Blocked by ", tile.name])
+                    if tile then log.debug(["Blocked by ", tile.name])
                 else
                     log.debug(["Can't move left to <",bot.position.x-1,",",bot.position.y,">"])
                     tile = here.tile(bot.position.x-1,bot.position.y)

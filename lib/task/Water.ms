@@ -1,12 +1,7 @@
 // DOC - task to locate all position of targets, bot will harvest all target and place to chest on left of initial position
 import "Log"
 
-// prevent reinitializing log in globals
-if not globals.hasIndex("log") then     
-    globals.log = new Log
-    log.init
-    log.setMode("debug")
-end if
+
 
 Water = new {}
 
@@ -17,7 +12,15 @@ Water.init = function(settings)
 
     if not self.settings then
         self.settings = { "algo" : "simple" }
-    end if   
+    end if  
+
+    // prevent reinitializing log in globals
+    if not globals.hasIndex("log") then     
+        globals.log = new Log
+        log.init       
+        log.setMode("debug")
+        log.setInvoker("Water") 
+    end if  
 
     // start if all settings available
     if self.settings.hasIndex("algo") then self.run()
@@ -26,11 +29,13 @@ end function
 // DOC - run function
 Water.run = function()
     cropLocations = getCropLocations(self.settings)
+    if not cropLocations then 
+        log.debug("No dry crop to water")
+    end if
     while cropLocations
         if self.settings.algo == "simple" then simpleWatering(self.settings,cropLocations)
         cropLocations = getCropLocations(self.settings)
     end while
-
     log.save
 end function
 

@@ -14,18 +14,11 @@ initdir
 Log = new BaseClass        
 
 // DOC - constructor concept for class
-Log.init = function(settings)
+Log.init = function()
     // prevent overwritting class
-    if self.isclass then return
-
-    if settings then 
-        self.settings = map.clone(settings)
-    else
-        self.settings = {}
-    end if
-    
-    // check for mode set
-    if not self.settings.get("mode") then self.setMode("info")
+    if self.isclass then return  
+    self.settings = {}
+    self.settings.mode = "info"
     self.content = []   
 end function
 
@@ -55,6 +48,9 @@ Log.save = function()
     fileName.removeVal(null,true)
     fileName = fileName.join("-") + ".log"
     logFile = file.open(fileName)
+    if self.content.len == 0 then
+        print "Nothing to save"
+    end if
     for line in self.content
         logFile.writeLine(line)
     end for
