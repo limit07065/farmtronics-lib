@@ -48,5 +48,5 @@ end function
 
 // invocations---
 init
-importall "extensions"
+importall "extension"
 importsafe "BaseClass"

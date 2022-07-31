@@ -33,7 +33,7 @@ end function
 Harvest.run = function()
 
     if not self.settings.hasIndex("target") or not self.settings.hasIndex("algo") then 
-        log.error("Target or algo not set")
+        log.error(["Target or algo not set"])
         return
     end if
 
@@ -42,7 +42,7 @@ Harvest.run = function()
     targetlocations = getTargetLocations(self.settings)
     if self.settings.algo == "simple" then simpleHarvest(targetlocations)
 
-    log.debug ("returning to starting location: " + self.settings.start.x + "," + self.settings.start.y)
+    log.debug (["returning to starting location: " + self.settings.start.x + "," + self.settings.start.y])
     bot.goto(self.settings.start.x,self.settings.start.y)
     bot.face(3)    
     for item in bot.inventory        
@@ -74,18 +74,18 @@ end function
 
 // DOC - harvest by moving next to target location in list 
 simpleHarvest = function(targetlocations)
-    log.debug("Using simple harvest algorithm")    
+    log.debug(["Using simple harvest algorithm"])    
     for targetlocation in targetlocations
-        log.debug ("harvesting at " + targetlocation.x + "," + targetlocation.y)
+        log.debug (["harvesting at " + targetlocation.x + "," + targetlocation.y])
         
         // always harvest from right             
         bot.goto(targetlocation.x + 1,targetlocation.y)
-        log.debug("At: " + bot.position.x + "," + bot.position.y)
+        log.debug(["At: " + bot.position.x + "," + bot.position.y])
         
         bot.face(3)
         bot.harvest                  
     end for
-    log.debug("Harvest finish")    
+    log.debug(["Harvest finish"])    
 end function
 
 return Harvest

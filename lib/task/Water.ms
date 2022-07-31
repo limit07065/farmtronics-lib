@@ -52,19 +52,19 @@ end function
 
 // DOC - simple watering algorithm, goes to next crop in list and water
 simpleWatering = function(settings,cropLocations)
-    log.debug("Using simple watering algorithm")
-    log.debug("Crops to water:",cropLocations.len)
+    log.debug(["Using simple watering algorithm"])
+    log.debug(["Crops to water:",cropLocations.len])
     
     for cropLocation in cropLocations
-        log.debug ("watering " + cropLocation.x + "," + cropLocation.y)
+        log.debug (["watering " + cropLocation.x + "," + cropLocation.y])
         
         // always water from right             
         bot.goto(cropLocation.x + 1,cropLocation.y)
-        log.debug("At: " + bot.position.x + "," + bot.position.y)
+        log.debug(["At: " + bot.position.x + "," + bot.position.y])
         
         bot.face(3)
         bot.water                  
     end for
-    log.debug("Water finish")   
+    log.debug(["Water finish"])   
 end function
 return Water

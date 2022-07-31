@@ -51,7 +51,9 @@ Log.save = function()
     if self.isclass then return
 
     cd "/usr/logs"
-    fileName = [self.settings.invoker,world.year,world.season,world.dayOfWeek,world.timeOfDay,time].join("-") + ".log"
+    fileName = [self.settings.get("invoker"),world.year,world.season,world.dayOfWeek,world.timeOfDay,time]
+    fileName.removeVal(null,true)
+    fileName = fileName.join("-") + ".log"
     logFile = file.open(fileName)
     for line in self.content
         logFile.writeLine(line)
@@ -61,48 +63,24 @@ Log.save = function()
 end function
 
 // DOC - info function, always printed to console
-// @deprecated, probably better to send in a list
-Log.info = function(arg,arg2,arg3,arg4,arg5)
-    // prevent overwritting class
-    if self.isclass then return
-
-    line = ["[info]","-", arg, arg2, arg3, arg4, arg5]    
-    print line.join(" ")
-    self.content.push(line.join(" "))
-end function
-
-// DOC - debug function, only printed to console in debug mode
-// @deprecated, probably better to send in a list
-Log.debug = function(arg,arg2,arg3,arg4,arg5)
-    line = ["[debug]","-", arg, arg2, arg3, arg4, arg5]
-    if self.settings.mode == "debug" then
-        print line.join(" ")
-    end if        
-    self.content.push(line.join(" "))
-end function
-
-// DOC - error, always printed to console
-// @deprecated, probably better to send in a list
-Log.error = function(arg,arg2,arg3,arg4,arg5)
-    line = ["[error]","-", arg, arg2, arg3, arg4, arg5]
-        print line.join(" ")
-            
-    self.content.push(line.join(" "))
-end function
-
-// DOC - info function, always printed to console
 Log.info = function(arg)
     // prevent overwritting class
     if self.isclass then return
-    
+
+    if not arg isa list then arg = [arg]
+
     line = ["[info]","-"] + arg
     print line.join(" ")
     self.content.push(line.join(" "))
 end function
 
 // DOC - debug function, only printed to console in debug mode
-// @deprecated, probably better to send in a list
 Log.debug = function(arg)
+     // prevent overwritting class
+    if self.isclass then return
+
+    if not arg isa list then arg = [arg]
+
     line = ["[debug]","-"] + arg
     if self.settings.mode == "debug" then
         print line.join(" ")
@@ -111,8 +89,12 @@ Log.debug = function(arg)
 end function
 
 // DOC - error, always printed to console
-// @deprecated, probably better to send in a list
 Log.error = function(arg)
+     // prevent overwritting class
+    if self.isclass then return
+    
+    if not arg isa list then arg = [arg]
+
     line = ["[error]","-"] + arg
         print line.join(" ")
             

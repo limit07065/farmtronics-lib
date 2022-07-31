@@ -12,8 +12,8 @@ end function
 bot.goto = function(x=0,y=0)    
     attempt = 0      
     
-    log.debug("Currently at <", bot.position.x, ",", bot.position.y,">")
-    log.debug("Going to <", x, ",", y,">")
+    log.debug(["Currently at <", bot.position.x, ",", bot.position.y,">"])
+    log.debug(["Going to <", x, ",", y,">"])
     while bot.position.x != x or bot.position.y != y
         attempt = attempt + 1
         if attempt > 10 then
@@ -38,13 +38,13 @@ bot.goto = function(x=0,y=0)
             
             if prevX == bot.position.x then
                 if bot.facing == 1 then
-                    log.debug("Can't move right to <",bot.position.x+1,",",bot.position.y,">")
+                    log.debug(["Can't move right to <",bot.position.x+1,",",bot.position.y,">"])
                     tile = here.tile(bot.position.x+1,bot.position.y)
-                    if tile then log.debug("Blocked by ", tile.name)
+                    if tile then log.debug("Blocked by ", tile.name])
                 else
-                    log.debug("Can't move left to <",bot.position.x-1,",",bot.position.y,">")
+                    log.debug(["Can't move left to <",bot.position.x-1,",",bot.position.y,">"])
                     tile = here.tile(bot.position.x-1,bot.position.y)
-                    if tile then log.debug("Blocked by ", tile.name)                    
+                    if tile then log.debug(["Blocked by ", tile.name])                    
                     
                 end if
 
@@ -55,11 +55,11 @@ bot.goto = function(x=0,y=0)
                 if dy > 0 then
                     // if target is below bot                    
                     bot.face(2)                    
-                    log.debug("Turning down to <",bot.position.x,",",bot.position.y+1,">")
+                    log.debug(["Turning down to <",bot.position.x,",",bot.position.y+1,">"])
                 else
                     // if target is above bot                    
                     bot.face(0)
-                    log.debug("Turning up to <",bot.position.x,",",bot.position.y-1,">")
+                    log.debug(["Turning up to <",bot.position.x,",",bot.position.y-1,">"])
                 end if                
 
                 prevY = bot.position.y
@@ -69,23 +69,23 @@ bot.goto = function(x=0,y=0)
                     
                     // if collide second time, move vertically in opposite direction
                     if bot.facing == 0 then
-                        log.debug("Can't move up to <",bot.position.x, ",",bot.position.y-1,">")                        
+                        log.debug(["Can't move up to <",bot.position.x, ",",bot.position.y-1,">"])                        
                         tile = here.tile(bot.position.x,bot.position.y-1)
                         if tile then log.debug("Blocked by ", tile.name)
                         bot.face(2)
-                        log.debug("Turning down to <",bot.position.x, ",",bot.position.y+1,">")                                                
+                        log.debug(["Turning down to <",bot.position.x, ",",bot.position.y+1,">"])                                                
                     else
                         log.debug("Can't move down to <",bot.position.x, ",",bot.position.y+1,">")
                         tile = here.tile(bot.position.x,bot.position.y+1)
-                        if tile then log.debug("Blocked by ", tile.name)
+                        if tile then log.debug(["Blocked by ", tile.name])
                         bot.face(0)
-                        log.debug("Turning up to <",bot.position.x, ",",bot.position.y-1,">")                                                
+                        log.debug(["Turning up to <",bot.position.x, ",",bot.position.y-1,">"])                                                
                     end if                    
                     bot.forward()
 
                     // if collide third time
                     if prevY == bot.position.y then
-                        log.error("I'm stuck in a dead end")                    
+                        log.error(["I'm stuck in a dead end"])                    
                         return
                     end if                
                 end if 
@@ -112,13 +112,13 @@ bot.goto = function(x=0,y=0)
             bot.forward()
             if prevY == bot.position.y then
                 if bot.facing == 0 then
-                    log.debug("Can't move up to <",bot.position.x,",",bot.position.y-1,">")                    
+                    log.debug(["Can't move up to <",bot.position.x,",",bot.position.y-1,">"])                    
                     tile = here.tile(bot.position.x,bot.position.y-1)
                     if tile then log.debug("Blocked by ", tile.name) 
                 else
-                    log.debug("Can't move down to <",bot.position.x,",",bot.position.y+1,">")
+                    log.debug(["Can't move down to <",bot.position.x,",",bot.position.y+1,">"])
                     tile = here.tile(bot.position.x,bot.position.y+1)
-                    if tile then log.debug("Blocked by ", tile.name)                    
+                    if tile then log.debug(["Blocked by ", tile.name])                    
                 end if
 
                 // if collide first time, update dy then go with move x             
@@ -128,11 +128,11 @@ bot.goto = function(x=0,y=0)
                 if dx >= 0 then
                     // if target is right/same as bot                    
                     bot.face(1)
-                    log.debug("Turning right to <",bot.position.x+1,",",bot.position.y,">")
+                    log.debug(["Turning right to <",bot.position.x+1,",",bot.position.y,">"])
                 else
                     // if target is left or same lane of bot                    
                     bot.face(3)
-                    log.debug("Turning left to <",bot.position.x-1,",",bot.position.y,">")
+                    log.debug(["Turning left to <",bot.position.x-1,",",bot.position.y,">"])
                 end if                
 
                 prevX = bot.position.x
@@ -141,23 +141,23 @@ bot.goto = function(x=0,y=0)
                 if prevX == bot.position.x then
                     // if collide second time, move horizontally in opposite direction
                     if bot.facing == 1 then
-                        log.debug("Can't move right to <", bot.position.x+1, ",", bot.position.y, ">")
+                        log.debug(["Can't move right to <", bot.position.x+1, ",", bot.position.y, ">"])
                         tile = here.tile(bot.position.x+1,bot.position.y)
-                        if tile then log.debug("Blocked by ", tile.name)
+                        if tile then log.debug(["Blocked by ", tile.name])
                         bot.face(3)
-                        log.debug("Turning left to <",bot.position.x-1, ",", bot.position.y, ">")                        
+                        log.debug(["Turning left to <",bot.position.x-1, ",", bot.position.y, ">"])                        
                     else
-                        log.debug("Can't move left to <", bot.position.x-1, ",", bot.position.y, ">")
+                        log.debug(["Can't move left to <", bot.position.x-1, ",", bot.position.y, ">"])
                         tile = here.tile(bot.position.x-1,bot.position.y)
-                        if tile then log.debug("Blocked by ", tile.name)
+                        if tile then log.debug(["Blocked by ", tile.name])
                         bot.face(1)
-                        log.debug("Turning rigth to <", bot.position.x+1, ",", bot.position.y, ">")                        
+                        log.debug(["Turning rigth to <", bot.position.x+1, ",", bot.position.y, ">"])                        
                     end if                    
                     bot.forward()
 
                     // if collide third time
                     if prevX == bot.position.x then
-                        log.error("I'm stuck in a dead end")                    
+                        log.error(["I'm stuck in a dead end"])                    
                         return
                     end if                
                 end if 
@@ -179,13 +179,13 @@ bot.water = function()
     tool = self.getTool("wateringcan")
     
     if not tool then 
-        log.error("Does not have watering can")
+        log.error(["Does not have watering can"])
         return
     end if
 
     // check water level before watering
     if tool.waterLeft == 0 then
-        log.debug("Out of water.")
+        log.debug(["Out of water."])
         bot.refill()
     end if   
 
@@ -195,7 +195,7 @@ bot.water = function()
 
     // check water level after watering
     if tool.waterLeft == 0 then
-        log.debug("Out of water.")
+        log.debug(["Out of water."])
         bot.refill()
     end if
 end function
@@ -204,16 +204,16 @@ end function
 bot.refill = function()  
     tool = self.getTool("wateringcan")
     if not tool then 
-        log.error("Does not have watering can")
+        log.error(["Does not have watering can"])
         return
     end if
 
-    log.debug("Going to refill " + tool.name)
+    log.debug(["Going to refill " + tool.name])
     curstep = 1
     maxstep = 100
     watertile = null
     while curstep < maxstep and not watertile
-        log.debug("Locating nearest water tile at", curstep, "away")
+        log.debug(["Locating nearest water tile at", curstep, "away"])
         
         for i in range (1,curstep)
             
@@ -247,7 +247,7 @@ bot.refill = function()
         curstep = curstep + 1   
     end while 
     if not watertile then
-        log.error("Fail to find watertile within", maxstep, "steps")
+        log.error(["Fail to find watertile within", maxstep, "steps"])
         return
     end if
     bot.goto(watertile.x,watertile.y+1)
@@ -277,7 +277,7 @@ iswatertile = function(x,y)
     tile = here.tile(x, y)
     if tile then        
         if tile.name.lower == "water" then
-            log.debug("Found water tile at <",x,",",y,">")
+            log.debug(["Found water tile at <",x,",",y,">"])
             return { "x" : x, "y" : y}
         end if
     end if
