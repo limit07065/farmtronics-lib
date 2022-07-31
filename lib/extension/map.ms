@@ -1,4 +1,5 @@
 //DOC - extension for map data type
+import "mapUtil"
 
 // DOC - contains: return true if this list contains the given element.
 map.contains = function(item)
@@ -19,4 +20,8 @@ map.clone = function(srcmap)
 		end if		
 	end for
 	return result
+end function
+
+map.getisa = function
+	return self.get("__isa")	
 end function

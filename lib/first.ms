@@ -41,10 +41,9 @@ globals.importall = function(directory)
     end for
 end function
 
-// DOC - prevent recursive import and duplicate import
+// DOC - Only call importsafe in primary programs such as startup.ms or if you intend to import to globals scope. Prevents recursive import and duplicate import in globals scope. Imported module should still use "import" if the import is only meant for locals.
 globals.importsafe = function(moduleName)
-    if globals.hasIndex(moduleName) then return     
-    
+    if globals.hasIndex(moduleName) and globals[moduleName] then return
         globals[moduleName] = "PENDING"	// (module is being imported now)
         import moduleName
         globals[moduleName] = locals[moduleName]    

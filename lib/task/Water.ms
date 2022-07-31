@@ -1,5 +1,5 @@
 // DOC - task to locate all position of targets, bot will harvest all target and place to chest on left of initial position
-importsafe "Log"
+import "Log"
 
 // prevent reinitializing log in globals
 if not globals.hasIndex("log") then     
