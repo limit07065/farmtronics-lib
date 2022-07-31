@@ -16,9 +16,6 @@ init = function()
     end for
 end function
 
-// invocations---
-init
-
 // extensions---
 // DOC - allow import of all modules in same directory
 globals.importall = function(directory)
@@ -48,3 +45,8 @@ globals.importsafe = function(moduleName)
         import moduleName
         globals[moduleName] = locals[moduleName]    
 end function
+
+// invocations---
+init
+importall "extensions"
+importsafe "BaseClass"

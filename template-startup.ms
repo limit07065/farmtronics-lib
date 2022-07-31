@@ -1,6 +1,5 @@
 //import globalsR and all module in datatype folder
 import "first"
-import "second"
 
 // import high level bot script
 // TO UNCOMMENT
