@@ -46,7 +46,9 @@ Harvest.run = function()
     while targetlocations
         if self.settings.algo == "simple" then simpleHarvest(targetlocations)
         if self.settings.algo == "simpleNearest" then simpleNearestHarvest(targetlocations,self.settings.target)
-        targetlocations = refreshTargetLocationList(targetlocations)        
+        targetlocations = refreshTargetLocationList(targetlocations)
+        log.debug(["Remaining:",targetlocations])
+        log.debug("Taking 3 sec break ^^")       
     end while
 
     log.debug (["returning to starting location: " + self.settings.start.x + "," + self.settings.start.y])
@@ -187,21 +189,7 @@ simpleNearestHarvest = function(targetlocations,target)
             bot.face(nearestTile.fromDirection)
             if bot.harvest then targetCount.decrement
         end if    
-    end while 
-    if not watertile then
-        log.error(["Fail to find watertile within", maxstep, "steps"])
-        return
-    end if     
-    for targetlocation in targetlocations
-        log.debug (["harvesting " + targetlocation.x + "," + targetlocation.y])
-        
-        // always harvest from right             
-        bot.goto(targetlocation.x + 1,targetlocation.y)
-        log.debug(["At: " + bot.position.x + "," + bot.position.y])
-        
-        bot.face(3)
-        bot.harvest                  
-    end for
+    end while     
     log.debug(["Harvest finish"])    
 end function
 
