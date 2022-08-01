@@ -22,7 +22,7 @@ Tile.init = function(x,y)
     else
         self.x = x
         self.y = y
-        update(self)
+        self.update()
     end if
 end function
 
@@ -140,13 +140,13 @@ Tile.update = function()
     // only for instance
     if self.isclass then return
     
-    tile.info = here.tile(tile.x,tile.y)
-    tile.name = null
-    tile.type = null
+    self.info = here.tile(self.x,self.y)
+    self.name = null
+    self.type = null
 
-    if tile.info then 
-        tile.name = tile.info.get("name")
-        tile.type = tile.info.get("type")   
+    if self.info then 
+        self.name = self.info.get("name")
+        self.type = self.info.get("type")   
     end if
 end function
 
