@@ -12,6 +12,8 @@ Tile.init = function(x,y)
 
     // skip if x or y not provided
     if x == null or y == null then return
+    if x < 0 or y < 0 then return
+    if x > here.width or y > here.height then return
 
     if self.isclass then
         tile = new Tile
@@ -67,18 +69,6 @@ Tile.ispassable = function(position)
     end if
 end function
 
-// DOC - return x and y string in a list
-Tile.xyOnly = function(list)
-    // skip if called by instance
-    if not self.isclass then return
-    reduce = function(a,b)
-        if a == null and b == null then return []
-        if b == null then return ["<" + a.x + "," + a.y + ">"]
-        return a.push("<" + b.x + "," + b.y + ">")
-    end function
-    return list.reduce(@reduce)
-end function
-
 Tile.buildDistanceTree = function(list)
     // only for instance
     if self.isclass then return
@@ -94,6 +84,56 @@ Tile.buildDistanceTree = function(list)
     end for
 end function
 
+Tile.distanceFrom = function(tile)
+    // only for instance
+    if self.isclass then return
+    if tile == null then return
+
+    return abs(self.x - tile.x + self.y - tile.y)
+end function
+
+Tile.up = function()
+    // only for instance
+    if self.isclass then return    
+
+    tile = Tile.init(self.x, self.y-1)
+    tile.directionFrom = 2
+    return tile
+end function
+
+Tile.down = function()
+    // only for instance
+    if self.isclass then return    
+
+    tile = Tile.init(self.x, self.y+1)
+    tile.directionFrom = 0
+    return tile
+end function
+
+Tile.left = function()
+    // only for instance
+    if self.isclass then return    
+
+    tile = Tile.init(self.x+1, self.y)
+    tile.directionFrom = 3
+    return tile
+end function
+
+Tile.right = function()
+    // only for instance
+    if self.isclass then return    
+
+    tile = Tile.init(self.x-1, self.y)
+    tile.directionFrom = 1
+    return tile
+end function
+
+Tile.xy = function()
+    // only for instance
+    if self.isclass then return    
+
+    return "<" + self.x + ", " + self.y + ">"
+end function
 // file-scope ---
 // DOC update tile info
 updateTile = function(tile)
