@@ -41,8 +41,13 @@ Harvest.run = function()
 
     log.info(["Harvesting ",self.settings.target])
     // assume chest is always on left of bot initial spot
-    self.settings.start = bot.position    
+    self.settings.start = bot.position
+
     targetlocations = getTargetLocationList(self.settings)
+    if not targetlocations then
+        log.error([self.settings.target,"not found"])
+    end if
+
     while targetlocations
         if self.settings.algo == "simple" then simpleHarvest(targetlocations)
         if self.settings.algo == "simpleNearest" then simpleNearestHarvest(targetlocations,self.settings.target)
@@ -207,7 +212,7 @@ end function
 istarget = function(tile,target)    
     if tile and tile.info then        
         crop = tile.info.get("crop")         
-        if crop != null and crop.get("name") == target then
+        if crop != null and crop.get("name") == target and crop.get("harvestable") then
             log.debug([Tile.xy,crop.name]) 
             return true       
         end if
