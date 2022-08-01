@@ -22,7 +22,7 @@ Tile.init = function(x,y)
     else
         self.x = x
         self.y = y
-        updateTile(self)
+        update(self)
     end if
 end function
 
@@ -136,7 +136,10 @@ Tile.xy = function()
 end function
 // file-scope ---
 // DOC update tile info
-updateTile = function(tile)
+Tile.update = function()
+    // only for instance
+    if self.isclass then return
+    
     tile.info = here.tile(tile.x,tile.y)
     tile.name = null
     tile.type = null

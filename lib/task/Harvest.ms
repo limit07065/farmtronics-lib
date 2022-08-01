@@ -83,7 +83,7 @@ end function
 
 // DOC - harvest by moving to next target location in list 
 simpleHarvest = function(targetlocations)
-    log.debug(["Using simple harvest algorithm"])    
+    log.info(["Using simple harvest algorithm"])    
     for targetlocation in targetlocations
         log.debug (["harvesting " + targetlocation.x + "," + targetlocation.y])
         
@@ -97,14 +97,14 @@ simpleHarvest = function(targetlocations)
         end if                    
 
     end for
-    log.debug(["Harvest finish"])    
+    log.info(["Harvest finish"])    
 end function
 
 // DOC - harvest by moving to nearest target location in list without checking for impassable 
 simpleNearestHarvest = function(targetlocations,target)
     log.info("Not working yet")
     return
-    log.debug(["Using simpleNearest harvest algorithm"])
+    log.info(["Using simpleNearest harvest algorithm"])
     targetCount = targetlocations.len
     limit = 0
     while targetCount > 0 and limit < 1
@@ -195,13 +195,14 @@ simpleNearestHarvest = function(targetlocations,target)
             if bot.harvest then targetCount.decrement
         end if    
     end while     
-    log.debug(["Harvest finish"])    
+    log.info(["Harvest finish"])    
 end function
 
 // DOC - check if all targetlocations are harvested
 refreshTargetLocationList = function(list)    
     result = []
     for tile in list        
+        tile.update
         if tile.info.crop.harvestable then                          
             result.push(tile)            
         end if       
