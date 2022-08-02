@@ -94,8 +94,7 @@ bot.goto = function(x=0,y=0)
                 dx = x - bot.position.x
                 dy = y - bot.position.y
             else
-                // if no collide, update prevX and dx position                
-                prevX = bot.position.x
+                // if no collide, update prevX and dx position                                
                 dx = x - bot.position.x
             end if           
         end while
@@ -166,8 +165,7 @@ bot.goto = function(x=0,y=0)
                 dx = x - bot.position.x
                 dy = y - bot.position.y
             else
-                // if no collide, update prevY position                
-                prevY = bot.position.y
+                // if no collide, update prevY position                                
                 dy = y - bot.position.y
             end if 
         end while
@@ -287,3 +285,52 @@ end function
 bot.getTool = function(type)
     return bot.inventory.find(type,"type")
 end function
+
+bot.subscribeChat = function(player)
+    // register player name
+    outer.player = player
+    
+    pprint "Subscribing to chat"
+    lastMessage = world.chatMessages[-1]       
+    while true
+        cmd = world.chatMessages[-1]
+        if cmd != lastMessage then            
+            
+            result = chatCommand(cmd.trim)
+            if result then
+                world.chat(result)
+                pprint(result)            
+            end if
+
+            lastMessage = world.chatMessages[-1]
+            // count.increment            
+            // count = world.chatMessages.len
+        end if
+        yield
+    end while    
+end function
+
+chatCommand = function(cmd)    
+    sender = cmd.split(": ")[0]
+    commandString = cmd.split(": ")[1]
+    
+    if commandString.indexOf(":") == null then return 
+
+    result = "I don't understand " + commandString
+
+    command = commandString.split(":")
+    
+    if command[1] == "location" then         
+        result = "I am at " + bot.position.area.name + "[" + bot.position.x + "," + bot.position.y + "]"
+        return result
+    end if
+
+    if command[1] == "move" then
+        if command.len < 4 then return
+        result = "I am moving to <" + command[2] + "," + command[3] + ">"
+        bot.goto(command[2].val,command[3].val)   
+        return result
+    end if 
+    return result
+end function
+return null

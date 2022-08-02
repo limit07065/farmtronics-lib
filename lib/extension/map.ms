@@ -1,5 +1,4 @@
 //DOC - extension for map data type
-import "mapUtil"
 
 // DOC - contains: return true if this list contains the given element.
 map.contains = function(item)

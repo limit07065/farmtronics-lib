@@ -50,3 +50,8 @@ end function
 init
 importall "extension"
 importglobal "BaseClass"
+
+// import from sys
+import "mapUtil"
+import "listUtil"
+import "stringUtil"
