@@ -75,7 +75,7 @@ bot.goto = function(x=0,y=0)
                         bot.face(2)
                         log.debug(["Turning down to <",bot.position.x, ",",bot.position.y+1,">"])                                                
                     else
-                        log.debug("Can't move down to <",bot.position.x, ",",bot.position.y+1,">")
+                        log.debug(["Can't move down to <",bot.position.x, ",",bot.position.y+1,">"])
                         tile = here.tile(bot.position.x,bot.position.y+1)
                         if tile then log.debug(["Blocked by ", tile.name])
                         bot.face(0)
@@ -114,7 +114,7 @@ bot.goto = function(x=0,y=0)
                 if bot.facing == 0 then
                     log.debug(["Can't move up to <",bot.position.x,",",bot.position.y-1,">"])                    
                     tile = here.tile(bot.position.x,bot.position.y-1)
-                    if tile then log.debug("Blocked by ", tile.name) 
+                    if tile then log.debug(["Blocked by ", tile.name]) 
                 else
                     log.debug(["Can't move down to <",bot.position.x,",",bot.position.y+1,">"])
                     tile = here.tile(bot.position.x,bot.position.y+1)

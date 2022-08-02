@@ -30,7 +30,7 @@ end function
 Water.run = function()
     cropLocations = getCropLocations(self.settings)
     if not cropLocations then 
-        log.debug("No dry crop to water")
+        log.debug(["No dry crop to water"])
     end if
     while cropLocations
         if self.settings.algo == "simple" then simpleWatering(self.settings,cropLocations)

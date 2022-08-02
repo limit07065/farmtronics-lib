@@ -53,7 +53,7 @@ Harvest.run = function()
         if self.settings.algo == "simpleNearest" then simpleNearestHarvest(targetlocations,self.settings.target)
         targetlocations = refreshTargetLocationList(targetlocations)
         log.debug(["Remaining:",targetlocations])
-        log.debug("Taking 3 sec break ^^")       
+        log.debug(["Taking 3 sec break ^^"])       
     end while
 
     log.debug (["returning to starting location: " + self.settings.start.x + "," + self.settings.start.y])
