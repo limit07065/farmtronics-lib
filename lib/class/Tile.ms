@@ -150,4 +150,54 @@ Tile.update = function()
     end if
 end function
 
+// DOC create a graph where start is the first element of graph
+// Tile.graph = function(start,end)
+//     if not start or not end return
+//     if not start isa Tile or not end isa Tile then return
+
+//     minX = min(start.x,end.x)
+//     maxX = max(start.x,end.x)
+//     minY = min(start.y,end.y)
+//     maxY = max(start.y,end.y)
+
+//     inrange = function(target,minX,maxX,minY,maxY)
+//         if target.x < minX then return false
+//         if target.x > maxX then return false
+//         if target.y < minY then return false
+//         if target.y > maxY then return false
+//         return true
+//     end function
+//     graph = []
+//     tileId = 0
+//     for y in range(start.y, end.y)
+//         for x in range (start.x, end.x)
+//             tile = Tile.init(x,y)
+//             graph[tileId] = []
+//             up = tile.up
+//             if up.ispassable and inrange(up,minX,maxX,minY,maxY) then
+//                 graph[tileId].push(up)
+//         end for
+//     end for    
+
+//     return graph    
+// end function
+
+// DOC calculate diff of x with respect to target
+Tile.dx = function(target)
+    // only for instance
+    if self.isclass then return
+    if not target or not target isa Tile then return
+
+    return self.x - target.x
+end function
+
+// DOC calculate diff of y with respect to target
+Tile.dy = function(target)
+    // only for instance
+    if self.isclass then return
+    if not target or not target isa Tile then return
+
+    return self.y - target.y
+end function
+
 return Tile

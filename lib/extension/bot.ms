@@ -1,4 +1,5 @@
 // DOC - extend bot module
+import "Tile"
 
 // extensions---
 // DOC - turn the bot to direction, 0 - North, 1 - East , 2 - South, 3 - West
@@ -172,31 +173,57 @@ bot.goto = function(x=0,y=0)
     end while
 end function
 
-// DOC - use watering tool to water, check water level before and after water
-bot.water = function()
-    tool = self.getTool("wateringcan")
+
+// bot.goto1 = function(x=0,y=0)    
+//     if x == null then return
+//     if x isa Tile then
+//         tile = x
+//         x = tile.x
+//         y = tile.y
+//     end if
+
+//     if not x isa number or not y isa number then return    
     
-    if not tool then 
-        log.error(["Does not have watering can"])
-        return
-    end if
+//     while bot.position.x != x or bot.position.y != y  
+//         start = Tile.from(bot.position)
+//         end = Tile.init(x,y)
+//         log.debug(["Currently at [",start.x,",",start.y,"]"])
+//         log.debug(["Going to [",x,",",y,"]"])
 
-    // check water level before watering
-    if tool.waterLeft == 0 then
-        log.debug(["Out of water."])
-        bot.refill()
-    end if   
+//         graph = Tile.graph(start,end)
+//         direction = []
+//         path = []
+//         deadEnd = []
+//         cur = Tile.from(start)
+//         while cur.x != x and cur.y != y
+//             dx = x - cur.x
+//             dy = y - cur.y
 
-    
-    bot.select(tool.name)
-    bot.useTool
+//             // Q1
+//             if dx > 0 and dy > 0 then
+//                 if (cur.up.ispassable) then
+//                     direction.push(0)
+//                     path.push(cur.up)
+//                     cur = cur.up
+//                     continue                    
+//                 end if
 
-    // check water level after watering
-    if tool.waterLeft == 0 then
-        log.debug(["Out of water."])
-        bot.refill()
-    end if
-end function
+//                 if (cur.up.ispassable) then
+//                     direction.push(0)
+//                     path.push(cur.up)
+//                     cur = cur.up                    
+//                 end if
+
+//         end while
+
+//         index = 0
+//         for d in direction        
+//             bot.face(d)
+//             bot.forward
+//             if Tile.init(bot.position).xy != path[index].xy then break
+//         end for
+//     end while
+// end function
 
 // DOC - refill water
 bot.refill = function()  
@@ -291,9 +318,16 @@ bot.subscribeChat = function(player)
     outer.player = player
     
     pprint "Subscribing to chat"
-    lastMessage = world.chatMessages[-1]       
+    lastMessage = ""
+    if world.chatMessages then
+        lastMessage = world.chatMessages[-1]       
+    end if
     while true
-        cmd = world.chatMessages[-1]
+        cmd = ""
+        if world.chatMessages then
+            lastMessage = world.chatMessages[-1]       
+        end if
+
         if cmd != lastMessage then            
             
             result = chatCommand(cmd.trim)
