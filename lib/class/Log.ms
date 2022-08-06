@@ -1,25 +1,27 @@
 // DOC - Log class to support logging at info and debug levels
+import "BaseClass"
 
 // DOC - call on import to check for logs directory created
 initdir = function()
     dirname = "/usr/logs"
-    if file.exists(dirname) and file.info(dirname).isDirectory then 
+    if file.exists(dirname) and file.info(dirname).isDirectory then
         return
-    else        
+    else
         mkdir dirname
     end if
 end function
 initdir
 
-Log = new BaseClass        
+Log = new BaseClass
 
 // DOC - constructor concept for class
 Log.init = function()
     // prevent overwritting class
-    if self.isclass then return  
+    if self.isclass then return
     self.settings = {}
     self.settings.mode = "info"
-    self.content = []   
+    self.settings.saveOnError = true
+    self.content = []
 end function
 
 // DOC - set logging mode
@@ -39,12 +41,16 @@ Log.setInvoker = function(invoker)
 end function
 
 // DOC - save log file
-Log.save = function()
+Log.save = function(error)
     // prevent overwritting class
     if self.isclass then return
 
     cd "/usr/logs"
     fileName = [self.settings.get("invoker"),world.year,world.season,world.dayOfWeek,world.timeOfDay,time]
+
+    if error != null then
+        fileName.replace(self.settings.get("invoker"),error)
+    end if
     fileName.removeVal(null,true)
     fileName = fileName.join("-") + ".log"
     logFile = file.open(fileName)
@@ -80,7 +86,7 @@ Log.debug = function(arg)
     line = ["[debug]","-"] + arg
     if self.settings.mode == "debug" then
         print line.join(" ")
-    end if        
+    end if
     self.content.push(line.join(" "))
 end function
 
@@ -88,12 +94,15 @@ end function
 Log.error = function(arg)
      // prevent overwritting class
     if self.isclass then return
-    
+
     if not arg isa list then arg = [arg]
 
     line = ["[error]","-"] + arg
         print line.join(" ")
-            
+
     self.content.push(line.join(" "))
+    if self.settings.saveOnError then
+        self.save "error"
+    end if
 end function
 return Log

@@ -1,7 +1,10 @@
 // DOC - wrapper Tile class to retrieve information for a tile based on position given
-import "Tree"
-
-impassabletypes = [ "Building" , "Crafting","Water"]
+import "BaseClass"
+import "Log"
+// importsafe "mapUtil"
+// importsafe "listUtil"
+// import "Tree"
+impassabletypes = [ "Building" , "Crafting", "Water", "Tree", "Character", "Stone", "Basic", "Bush", "Clump", "Fish"]
 
 Tile = new BaseClass
 
@@ -31,38 +34,36 @@ Tile.from = function(position)
     // skip if x or y not provided
     x = position.get("x")
     y = position.get("y")
-        
+
     if x == null or  y == null then return
 
     if self.isclass then
         tile = new Tile
-        tile.init(x,y) 
+        tile.init(x,y)
         return tile
     else
         self.x = x
         self.y = y
         self.info = here.tile(x,y)
-    end if   
+    end if
 end function
 
 // DOC - check if position provided is passable. For class call, check @param position. For instance call, does not allow position and only feedback based on self position
 Tile.ispassable = function(position)
     type = null
     // different behaviour based on class / instance
-    if self.isclass then 
+    if self.isclass then
         if position == null then return
-    
-        x = position.get("x")
-        y = position.get("y")
-        if x == null or  y == null then return
-        tile = Tile.init(x,y)    
-        type = tile.type       
+        tile = Tile.from(x,y)
+        type = tile.type
     else
-        if position != null then return        
-        type = self.info.get("type")                  
-    end if 
+        if position != null then return
+        if self.info then
+            type = self.info.get("type")
+        end if
+    end if
 
-     if type and impassabletypes.contains(type) then 
+     if type and impassabletypes.contains(type) then
         return false
     else
         return true
@@ -76,7 +77,7 @@ Tile.buildDistanceTree = function(list)
     tree = null
     for tile in list
         distance = abs(self.x - tile.x) + abs(self.y - tile.y)
-        if tree == null then 
+        if tree == null then
             tree = Tree.init(distance,tile)
         else
             tree.insert(Tree.init(distance,tile))
@@ -94,43 +95,38 @@ end function
 
 Tile.up = function()
     // only for instance
-    if self.isclass then return    
+    if self.isclass then return
 
     tile = Tile.init(self.x, self.y-1)
-    tile.directionFrom = 2
     return tile
 end function
 
 Tile.down = function()
     // only for instance
-    if self.isclass then return    
+    if self.isclass then return
 
     tile = Tile.init(self.x, self.y+1)
-    tile.directionFrom = 0
     return tile
 end function
 
 Tile.left = function()
     // only for instance
-    if self.isclass then return    
-
+    if self.isclass then return
     tile = Tile.init(self.x+1, self.y)
-    tile.directionFrom = 3
     return tile
 end function
 
 Tile.right = function()
     // only for instance
-    if self.isclass then return    
+    if self.isclass then return
 
     tile = Tile.init(self.x-1, self.y)
-    tile.directionFrom = 1
     return tile
 end function
 
 Tile.xy = function()
     // only for instance
-    if self.isclass then return    
+    if self.isclass then return
 
     return "<" + self.x + ", " + self.y + ">"
 end function
@@ -139,14 +135,14 @@ end function
 Tile.update = function()
     // only for instance
     if self.isclass then return
-    
+
     self.info = here.tile(self.x,self.y)
     self.name = null
     self.type = null
 
-    if self.info then 
+    if self.info then
         self.name = self.info.get("name")
-        self.type = self.info.get("type")   
+        self.type = self.info.get("type")
     end if
 end function
 
@@ -177,9 +173,9 @@ end function
 //             if up.ispassable and inrange(up,minX,maxX,minY,maxY) then
 //                 graph[tileId].push(up)
 //         end for
-//     end for    
+//     end for
 
-//     return graph    
+//     return graph
 // end function
 
 // DOC calculate diff of x with respect to target
@@ -200,4 +196,28 @@ Tile.dy = function(target)
     return self.y - target.y
 end function
 
+Tile.directionFrom = function(tile)
+
+    // log.debug ["self:",self.xy,"tile:",tile.xy]
+    // only for instance
+    if self.isclass then return
+    if tile == null then return
+
+    if self.distanceFrom(tile) != 1 then return
+
+    dy = self.dy(tile)
+    dx = self.dx(tile)
+
+    // log.debug ["dx:",dx,"dy::",dy]
+
+    if dy < 0 then return 2
+    if dy > 0 then return 0
+    if dx < 0 then return 1
+    if dx > 0 then return 3
+    return
+end function
+
+Tile.graph = function(startTile,endTile)
+
+end function
 return Tile

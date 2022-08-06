@@ -1,4 +1,6 @@
 // DOC - tree implementation
+if not globals.hasIndex("BaseClass") then import "BaseClass"
+
 Tree = new BaseClass
 
 // DOC - constructor
